@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gradient-start: 255, 240, 254;
+  --gradient-end: 242, 240, 255;
+}
+
+body {
+  background: linear-gradient(
+    135deg,
+    rgb(var(--gradient-start)) 0%,
+    rgb(var(--gradient-end)) 100%
+  );
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #1a1a1a, #4a4a4a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
