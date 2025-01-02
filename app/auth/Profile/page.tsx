@@ -21,7 +21,7 @@ import { SquiggleButton } from "@/components/squiggle-button";
 import { Switch } from "@/components/ui/switch";
 import Cookies from "js-cookie";
 import { supabase } from "@/utils/supabase/supabaseClient";
-import { UUID } from "crypto";
+
 
 export default function ProfilePage() {
   const [formData, setFormData] = useState({
@@ -50,41 +50,55 @@ export default function ProfilePage() {
           .select("*")
           .eq("user_id", uid)
           .single();
-    
+  
+        if (error && error.code !== "PGRST116") {
+          // Log unexpected Supabase errors
+          console.error("Error in checkUser:", error);
+          setLoading(false);
+          return;
+        }
+  
         if (user) {
-          router.push("/auth/Dashboard"); // Redirect if user data exists
+          // Redirect if user data exists
+          router.push("/auth/Dashboard");
         } else {
-          setLoading(false); // Stop loading if no data exists
+          // Allow user to stay on the profile creation page
+          setLoading(false);
         }
       } catch (err) {
-        console.log("Error in checkUser:", err);
-        setLoading(false); // Ensure loading state ends on error
+        console.error("Unexpected error in checkUser:", err);
+        setLoading(false); // Ensure loading stops even if there's an error
       }
     }
-    
+  
     async function fetchSession() {
       try {
         const { data: sessionData, error } = await supabase.auth.getSession();
-        if (error) throw error;
-
+        if (error) {
+          console.error("Error fetching session:", error);
+          router.replace("/"); // Redirect to login on error
+          return;
+        }
+  
         const session = sessionData?.session;
         if (session) {
           const user = session.user;
-          checkUser(user.id);
-          
-
+  
           // Set cookies for uid and uname
           Cookies.set("uid", user.id, { expires: 7 }); // Expires in 7 days
           Cookies.set("uname", user.user_metadata?.name || "User", { expires: 7 });
+  
+          // Check if user exists in the database
+          await checkUser(user.id);
         } else {
           router.replace("/"); // Redirect to login if no session
         }
       } catch (error) {
-        console.error("Error fetching session:", error);
-        router.replace("/"); // Redirect to login on error
+        console.error("Unexpected error fetching session:", error);
+        router.replace("/"); // Redirect to login on unexpected errors
       }
     }
-
+  
     fetchSession();
   }, [router]);
 
