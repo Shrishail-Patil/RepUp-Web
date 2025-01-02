@@ -1,5 +1,5 @@
 "use client";
-
+import { SquiggleButton } from "@/components/squiggle-button";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
@@ -192,9 +192,196 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
           </h1>
           <div className="glass-card p-8 rounded-2xl shadow-xl">
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              {/* Form Fields */}
-              {/* ... */}
-              <Button
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="gender" className="text-gray-800">
+                  Gender
+                </Label>
+                <Select
+                  name="gender"
+                  onValueChange={(value) => handleSelectChange("gender", value)}
+                >
+                  <SelectTrigger className="bg-white/70 border-gray-300 rounded-full">
+                    <SelectValue placeholder="Select gender" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white/90 rounded-lg">
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="age" className="text-gray-800">
+                  Age
+                </Label>
+                <Input
+                  id="age"
+                  name="age"
+                  type="number"
+                  className="bg-white/70 border-gray-300 rounded-full"
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="height" className="text-gray-800">
+                  Height (cm)
+                </Label>
+                <Input
+                  id="height"
+                  name="height"
+                  type="number"
+                  className="bg-white/70 border-gray-300 rounded-full"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="weight" className="text-gray-800">
+                  Weight (kg)
+                </Label>
+                <Input
+                  id="weight"
+                  name="weight"
+                  type="number"
+                  className="bg-white/70 border-gray-300 rounded-full"
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="activeDays" className="text-gray-800">
+                Active Days per Week
+              </Label>
+              <Select
+                name="activeDays"
+                onValueChange={(value) =>
+                  handleSelectChange("activeDays", value)
+                }
+              >
+                <SelectTrigger className="bg-white/70 border-gray-300 rounded-full">
+                  <SelectValue placeholder="Select active days" />
+                </SelectTrigger>
+                <SelectContent className="bg-white/90 rounded-lg">
+                  {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+                    <SelectItem key={day} value={day.toString()}>
+                      {day}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="hasEquipment"
+                onCheckedChange={handleSwitchChange}
+                className="bg-purple-500  data-[state=checked]:bg-purple-300/20 border-2 border-purple-300/20"
+              />
+              <Label htmlFor="hasEquipment" className="text-gray-800">
+                I have access to gym equipment
+              </Label>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="goal" className="text-gray-800">
+                Fitness Goal
+              </Label>
+              <Select
+                name="goal"
+                onValueChange={(value) => handleSelectChange("goal", value)}
+              >
+                <SelectTrigger className="bg-white/70 border-gray-300 rounded-full">
+                  <SelectValue placeholder="Select your goal" />
+                </SelectTrigger>
+                <SelectContent className="bg-white/90 rounded-lg">
+                  <SelectItem value="weight_loss">Weight Loss</SelectItem>
+                  <SelectItem value="muscle_gain">Muscle Gain</SelectItem>
+                  <SelectItem value="strength">Strength</SelectItem>
+                  <SelectItem value="endurance">Endurance</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="goalWeight" className="text-gray-800">
+                Goal Weight (kg)
+              </Label>
+              <Input
+                id="goalWeight"
+                name="goalWeight"
+                className="bg-white/70 border-gray-300 rounded-full"
+                type="number"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="injuries" className="text-gray-800">
+                Injuries or Medical Conditions (if any)
+              </Label>
+              <Input
+                id="injuries"
+                name="injuries"
+                className="bg-white/70 border-gray-300 rounded-full"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="fitnessLevel" className="text-gray-800">
+                Fitness Level
+              </Label>
+              <Select
+                name="fitnessLevel"
+                onValueChange={(value) =>
+                  handleSelectChange("fitnessLevel", value)
+                }
+              >
+                <SelectTrigger className="bg-white/70 border-gray-300 rounded-full">
+                  <SelectValue placeholder="Select your fitness level" />
+                </SelectTrigger>
+                <SelectContent className="bg-white/90 rounded-lg">
+                  <SelectItem value="beginner">Beginner</SelectItem>
+                  <SelectItem value="intermediate">Intermediate</SelectItem>
+                  <SelectItem value="advanced">Advanced</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="workoutSplit" className="text-gray-800">
+                Preferred Workout Split
+              </Label>
+              <Select
+                name="workoutSplit"
+                onValueChange={(value) =>
+                  handleSelectChange("workoutSplit", value)
+                }
+              >
+                <SelectTrigger className="bg-white/70 border-gray-300 rounded-full">
+                  <SelectValue placeholder="Select workout split" />
+                </SelectTrigger>
+                <SelectContent className="bg-white/90 rounded-lg">
+                  <SelectItem value="full_body">Full Body</SelectItem>
+                  <SelectItem value="upper_lower">Upper/Lower</SelectItem>
+                  <SelectItem value="push_pull_legs">Push/Pull/Legs</SelectItem>
+                  <SelectItem value="body_part">Body Part Split</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <SquiggleButton
+              onClick={(e) => {
+                e.preventDefault(); // Prevent default form behavior
+                generatePrompt();
+              }}
+              className="w-full"
+            >
+              Generate Workout Plan
+            </SquiggleButton>
+            {/* <Button
+              type="button"
+              onClick={generatePrompt}
+              className="w-full px-6 py-3 bg-white/70 border-gray-300  text-gray-800 font-bold text-lg rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300"
+            >
+              Generate Workout Plan
+            </Button> */}
+          <Button
                 className="mt-4 w-full"
                 onClick={generatePrompt}
                 disabled={loading}
