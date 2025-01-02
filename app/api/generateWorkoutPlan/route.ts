@@ -39,7 +39,8 @@ export async function POST(req: NextRequest) {
     const { error } = await supabase.from('users_workouts').insert([
       { user_id: userId, workout_plan: workoutPlan },
     ]);
-    return NextResponse.redirect(new URL('/auth/Dashboard', req.url));
+    // return NextResponse.redirect(new URL('/auth/Dashboard', req.url));
+    return NextResponse.redirect(`${req.nextUrl.origin}/auth/Dashboard`);
 
     // if (error) {
     //   console.error('Error storing workout plan in Supabase:', error);
