@@ -25,7 +25,7 @@ export default function LoginPage() {
             access_type: 'offline',
             prompt: 'consent',
           },      
-          redirectTo: `${window.location.origin}/auth/Profile`, // Redirect after successful login
+          redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/Profile`, // Redirect after successful login
         },
       });
 
