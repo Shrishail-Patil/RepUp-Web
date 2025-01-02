@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     // Redirect user to the dashboard after successful operation
     return NextResponse.redirect(new URL('/auth/Dashboard', req.url));
   } catch (error) {
-    console.error('Error generating or storing workout plan:', error);
+    console.error('Error generating or storing workout plan:', (error as any).message);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
