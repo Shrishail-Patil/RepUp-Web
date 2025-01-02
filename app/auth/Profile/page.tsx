@@ -169,10 +169,18 @@ Deliver the plan in a markdown format similar to this structure:
 
 Focus on precision, readability, and a logical structure to ensure the plan is actionable and effective.`;
 
-    const { data: sessionData } = await supabase.auth.getSession();
-    const userId = sessionData?.session?.user?.id;
+try {
+  // Fetch the current user's session
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError) {
+    console.error("Error fetching session:", sessionError);
+    throw new Error("Session error. Please try again.");
+  }
 
-    const { error } = await supabase.from("user_fitness_details").insert({
+  const userId = sessionData?.session?.user?.id;
+
+  // Insert user fitness details into Supabase
+  const { error: insertError } = await supabase.from("user_fitness_details").insert({
     user_id: userId,
     gender: formData.gender,
     age: formData.age,
@@ -180,33 +188,30 @@ Focus on precision, readability, and a logical structure to ensure the plan is a
     weight: formData.weight,
     active_days: formData.activeDays,
     has_equipment: formData.hasEquipment,
-    goal:  formData.goal,
+    goal: formData.goal,
     goal_weight: formData.goalWeight,
     injuries: formData.injuries,
     fitness_level: formData.fitnessLevel,
     workout_split: formData.workoutSplit,
-  })
-  if (error) {
-    console.error("Supabase Insert Error:", error.message);
+  });
+
+  if (insertError) {
+    console.error("Supabase Insert Error:", insertError.message);
+    throw new Error("Error saving fitness details. Please try again.");
   }
-  // console.log(error);
-    // if (error) {
-    //   console.error("Error inserting user fitness details:", error);
-    // }
 
-    setPrompt(promptText);
-    
+  // Generate workout plan via API
+  const response = await axios.post("/api/generateWorkoutPlan", { prompt: promptText });
 
-    try {
-      const response = await axios.post("/api/generateWorkoutPlan", {
-        prompt: promptText,
-      });
-      setWorkoutPlan(response.data.content);
-      router.push("/auth/Dashboard");
-    } catch (error) {
-      console.error("Error generating workout plan:", error);
-      setWorkoutPlan("Error generating workout plan. Please try again.");
-    }
+  // Set the generated workout plan
+  setWorkoutPlan(response.data.content);
+
+  // Redirect to the dashboard
+  router.push("/auth/Dashboard");
+} catch (error) {
+  console.error("Error in generatePrompt:", error);
+  setWorkoutPlan("Error generating workout plan. Please try again.");
+}
   };
 
   if (loading) {
