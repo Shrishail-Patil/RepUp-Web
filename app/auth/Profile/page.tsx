@@ -107,6 +107,9 @@ export default function ProfilePage() {
 
   const generatePrompt = async () => {
     try {
+      if (!formData.age || !formData.gender || !formData.height || !formData.weight) {
+        throw new Error("Incomplete form data. Please fill all required fields.");
+      }
       setLoading(true);
       setError(""); // Reset error message
       const promptText = `Generate a comprehensive, 90-day personalized workout plan tailored to the following profile:
@@ -134,6 +137,7 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
 - **Variety:** Include engaging exercises.
 - **Periodization:** Structure the plan across 90 days for gradual progress.`;
 
+      console.log("Generated prompt:", promptText);
       const { data: sessionData } = await supabase.auth.getSession();
       const userId = sessionData?.session?.user?.id;
 
@@ -155,16 +159,23 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
       if (insertError) {
         throw new Error("Error saving fitness details.");
       }
-
-      const response = await axios.post("/api/generateWorkoutPlan", { prompt: promptText });
-      setWorkoutPlan(response.data.content);
-      router.push("/auth/Dashboard");
+      
+      try {
+        const response = await axios.post("/api/generateWorkoutPlan", { prompt: promptText }, {
+          headers: { "Content-Type": "application/json" },
+        });
+        setWorkoutPlan(response.data.content);
+      } catch (err) {
+        setError("Error generating workout plan. Please try again.");
+      console.error("Error in generatePrompt:", err);
+      }
+      finally {
+        setLoading(false);
+      }
     } catch (err) {
       setError("Error generating workout plan. Please try again.");
       console.error("Error in generatePrompt:", err);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   return (

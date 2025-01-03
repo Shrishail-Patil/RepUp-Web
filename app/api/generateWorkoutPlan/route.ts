@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
     // Get user ID from cookies
     const cookies = req.cookies;
     const userId = cookies.get('uid')?.value;
+    console.log("GROQ_API_KEY:", process.env.GROQ_API_KEY ? "Available" : "Missing");
 
     if (!userId) {
       return NextResponse.json({ error: 'User ID not found in cookies' }, { status: 400 });
@@ -20,6 +21,9 @@ export async function POST(req: NextRequest) {
 
     // Parse request body
     const body = await req.json();
+if (!body || !body.prompt) {
+  return NextResponse.json({ error: "Invalid request body" }, { status: 406 });
+}
     const { prompt } = body;
 
     if (!prompt) {
