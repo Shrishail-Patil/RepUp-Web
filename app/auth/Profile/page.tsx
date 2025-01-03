@@ -165,6 +165,7 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
         const response = await axios.post("/api/generateWorkoutPlan", { prompt: promptText }, {
           headers: { "Content-Type": "application/json" },
         });
+        router.replace("/auth/Dashboard");
         setWorkoutPlan(response.data.content);
       } catch (err) {
         // setError("Error generating workout plan. Please try again.");
