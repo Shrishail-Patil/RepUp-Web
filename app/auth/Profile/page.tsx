@@ -19,6 +19,7 @@ import { AnimatedPlate } from "@/components/animated-plate";
 import { Switch } from "@/components/ui/switch";
 import Cookies from "js-cookie";
 import { supabase } from "@/utils/supabase/supabaseClient";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const [formData, setFormData] = useState({
@@ -169,13 +170,13 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
         setError("Error generating workout plan. Please try again.");
       console.error("Error in generatePrompt:", err);
       }
-      finally {
-        setLoading(false);
-      }
     } catch (err) {
       setError("Error generating workout plan. Please try again.");
       console.error("Error in generatePrompt:", err);
     } 
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -376,6 +377,7 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
                 </SelectContent>
               </Select>
             </div>
+            <Link href="/auth/Dashboard">
             <SquiggleButton
               onClick={(e) => {
                 e.preventDefault(); // Prevent default form behavior
@@ -385,6 +387,7 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
             >
               Generate Workout Plan
             </SquiggleButton>
+            </Link>
             {/* <Button
               type="button"
               onClick={generatePrompt}
