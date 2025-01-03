@@ -51,14 +51,18 @@ export async function POST(req: NextRequest) {
     const { data, error } = await supabase
       .from('users_workouts')
       .insert([{ user_id: userId, workout_plan: workoutPlan }]);
+    
+    if (data){
+      return NextResponse.json({ workoutPlan });
+    }
 
-    if (error) {
+    else if (error) {
       console.error('Error storing workout plan in Supabase:', error.message);
       return NextResponse.json({ error: 'Failed to store workout plan' }, { status: 500 });
     }
 
     // Return success and redirect user to the dashboard
-    return NextResponse.redirect(new URL('/auth/Dashboard', req.url));
+    // return NextResponse.redirect(new URL('/auth/Dashboard', req.url));
   } catch (error) {
     console.error('Error generating or storing workout plan:', (error as any).message);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

@@ -381,13 +381,13 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
             >
               Generate Workout Plan
             </Button> */}
-          <Button
+          {/* <Button
                 className="mt-4 w-full"
                 onClick={generatePrompt}
                 disabled={loading}
               >
                 {loading ? "Generating..." : "Generate Workout Plan"}
-              </Button>
+              </Button> */}
               {error && <div className="text-red-600 mt-4">{error}</div>}
             </form>
           </div>
