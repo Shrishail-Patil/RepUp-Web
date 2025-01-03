@@ -167,7 +167,7 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
         });
         setWorkoutPlan(response.data.content);
       } catch (err) {
-        setError("Error generating workout plan. Please try again.");
+        // setError("Error generating workout plan. Please try again.");
       console.error("Error in generatePrompt:", err);
       }
     } catch (err) {
