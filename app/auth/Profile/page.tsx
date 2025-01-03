@@ -162,9 +162,14 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
       }
       
       try {
-        const response = await axios.post("/api/generateWorkoutPlan", { prompt: promptText }, {
-          headers: { "Content-Type": "application/json" },
-        });
+        const response = await axios.post("/api/generateWorkoutPlan", { prompt: promptText }, 
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          }
+        );
         router.replace("/auth/Dashboard");
         setWorkoutPlan(response.data.content);
       } catch (err) {

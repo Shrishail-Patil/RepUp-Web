@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
     // Get user ID from cookies
     const cookies = req.cookies;
     const userId = cookies.get('uid')?.value;
-    console.log("GROQ_API_KEY:", process.env.GROQ_API_KEY ? "Available" : "Missing");
 
     if (!userId) {
       return NextResponse.json({ error: 'User ID not found in cookies' }, { status: 400 });
@@ -21,10 +20,7 @@ export async function POST(req: NextRequest) {
 
     // Parse request body
     const body = await req.json();
-if (!body || !body.prompt) {
-  return NextResponse.json({ error: "Invalid request body" }, { status: 406 });
-}
-    const { prompt } = body;
+    const prompt = body?.prompt;
 
     if (!prompt) {
       return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
@@ -32,17 +28,17 @@ if (!body || !body.prompt) {
 
     // Initialize Groq SDK
     const groq = new Groq({
-      apiKey: process.env.GROQ_API_KEY || '', // Check if the API key is set correctly
+      apiKey: process.env.GROQ_API_KEY || '',
     });
 
     if (!process.env.GROQ_API_KEY) {
       return NextResponse.json({ error: 'Missing GROQ_API_KEY' }, { status: 500 });
     }
 
-    // Generate the workout plan using Groq API
+    // Generate response using Groq
     const response = await groq.chat.completions.create({
       messages: [{ role: 'user', content: prompt }],
-      model: 'llama3-8b-8192', // Ensure model name is correct and available
+      model: 'llama3-8b-8192',
     });
 
     const workoutPlan = response.choices[0]?.message?.content || '';
@@ -51,24 +47,20 @@ if (!body || !body.prompt) {
       return NextResponse.json({ error: 'Failed to generate workout plan' }, { status: 500 });
     }
 
-    // Insert the workout plan into Supabase
-    const { data, error } = await supabase
+    // Insert workout plan into Supabase
+    const { error } = await supabase
       .from('users_workouts')
       .insert([{ user_id: userId, workout_plan: workoutPlan }]);
-    
-    if (data){
-      return NextResponse.json({ workoutPlan });
-    }
 
-    else if (error) {
+    if (error) {
       console.error('Error storing workout plan in Supabase:', error.message);
       return NextResponse.json({ error: 'Failed to store workout plan' }, { status: 500 });
     }
 
-    // Return success and redirect user to the dashboard
-    // return NextResponse.redirect(new URL('/auth/Dashboard', req.url));
+    // Redirect to the dashboard
+    return NextResponse.redirect(new URL('/auth/Dashboard', req.url));
   } catch (error) {
-    console.error('Error generating or storing workout plan:', (error as any).message);
+    console.error('Error processing request:', (error as any).message);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
