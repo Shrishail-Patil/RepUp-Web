@@ -170,7 +170,7 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
             },
           }
         );
-        router.replace("/auth/Dashboard");
+        router.refresh();
         setWorkoutPlan(response.data.content);
       } catch (err) {
         // setError("Error generating workout plan. Please try again.");

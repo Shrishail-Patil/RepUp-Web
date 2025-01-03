@@ -51,7 +51,7 @@ export default function LoginPage() {
   
         router.push('/auth/Profile');
       } else {
-        alert('Session not found');
+        // alert('Session not found');
       }
     } catch (error) {
       if (error instanceof Error) {
