@@ -87,9 +87,10 @@ export default function Home() {
           <a href="#pricing" className="text-sm text-gray-600 hover:text-black transition-colors">
             Pricing
           </a>
-          <SquiggleButton>
+          <SquiggleButton onClick={() => router.push('/pre-auth/Login')}>
             Sign In
           </SquiggleButton>
+
         </motion.nav>
       </header>
 
@@ -132,9 +133,9 @@ export default function Home() {
             <SquiggleButton onClick={() => router.push('/pre-auth/Login')}>
               Get started free
             </SquiggleButton>
-            <SquiggleButton variant="outline">
+            {/* <SquiggleButton variant="outline">
               Watch demo
-            </SquiggleButton>
+            </SquiggleButton> */}
           </motion.div>
         </div>
       </section>
@@ -200,9 +201,12 @@ export default function Home() {
           <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
             Join thousands of users who have already achieved their fitness goals with RepUp.
           </p>
-          <SquiggleButton>
+          {/* <SquiggleButton>
             Start your journey
-          </SquiggleButton>
+          </SquiggleButton> */}
+          <SquiggleButton onClick={() => router.push('/pre-auth/Login')}>
+          Start your journey
+            </SquiggleButton>
         </motion.div>
       </section>
     </div>
