@@ -45,10 +45,10 @@ export default function Home() {
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <AnimatedDumbbell />
         <div className="absolute top-1/4 right-1/4">
-          <AnimatedDumbbell />
+          <AnimatedDumbbell size={60}/>
         </div>
         <div className="absolute bottom-1/4 left-1/3">
-          <AnimatedDumbbell />
+          <AnimatedDumbbell size={80}/>
         </div>
         <div className="absolute top-1/3 right-1/3">
           <AnimatedPlate size={80} />

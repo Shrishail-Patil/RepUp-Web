@@ -71,9 +71,9 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center">
       {/* Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <AnimatedDumbbell />
+        <AnimatedDumbbell/>
         <div className="absolute top-1/4 right-1/4">
-          <AnimatedDumbbell />
+          <AnimatedDumbbell size={60}/>
         </div>
         <div className="absolute bottom-1/4 left-1/3">
           <AnimatedPlate size={80} />

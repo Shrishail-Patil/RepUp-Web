@@ -18,7 +18,7 @@ export const AnimatedPlate = ({ size = 100, delay = 0 }) => {
       }}
     >
       <div 
-        className="rounded-full border-8 border-purple-300/20"
+        className="rounded-full border-8 border-purple-400/20"
         style={{
           width: size,
           height: size,

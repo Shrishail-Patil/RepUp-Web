@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Dumbbell } from 'lucide-react'
 
-export const AnimatedDumbbell = () => {
+export const AnimatedDumbbell = ({size = 20}) => {
   return (
     <motion.div
       className="absolute"
@@ -17,7 +17,11 @@ export const AnimatedDumbbell = () => {
         ease: "easeInOut"
       }}
     >
-      <Dumbbell className="w-20 h-20 text-purple-300/20" />
+      <Dumbbell className="text-purple-400/20" 
+      style={{
+        width: size,
+        height: size,
+      }}/>
     </motion.div>
   )
 }
