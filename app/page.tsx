@@ -7,7 +7,6 @@ import { SquiggleButton } from '@/components/squiggle-button'
 import { TemporaryMessage } from '@/components/temporary-message'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import Cookies from 'js-cookie'
 import { supabase } from '@/utils/supabase/client'
 
 export default function Home() {
