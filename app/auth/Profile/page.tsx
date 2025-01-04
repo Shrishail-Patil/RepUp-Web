@@ -19,6 +19,7 @@ import { Switch } from "@/components/ui/switch";
 import Cookies from "js-cookie";
 import { supabase } from "@/utils/supabase/supabaseClient";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function ProfilePage() {
   const [formData, setFormData] = useState({
@@ -213,6 +214,13 @@ export default function ProfilePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
+          <button 
+                onClick={() => router.back()} 
+                className="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back
+              </button>
           <h1 className="text-4xl font-bold mb-8 text-center text-gradient">
             Create Your Profile
           </h1>
