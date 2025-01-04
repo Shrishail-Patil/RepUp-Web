@@ -93,9 +93,10 @@ export default function LoginPage() {
       <motion.button
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.2 }}>
+      transition={{ duration: 0.5, delay: 0.2 }}
+      onClick={() => router.back()} 
+      className="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900">
             <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
       </motion.button>
         <motion.h2
           className="text-3xl font-bold text-center mb-6 text-gradient"
