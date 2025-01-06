@@ -139,18 +139,52 @@ export default function ProfilePage() {
       }
 
       // Generate the prompt text
-      const promptText = `Generate a comprehensive, 90-day personalized workout plan tailored to the following profile:
-      ### User Profile:
-      - **Age:** ${formData.age} years
-      - **Gender:** ${formData.gender}
-      - **Height:** ${formData.height} cm
-      - **Weight:** ${formData.weight} kg
-      - **Equipment Access:** ${formData.hasEquipment ? "Fully equipped gym" : "No gym equipment"}
-      - **Available Workout Days:** ${formData.activeDays} days per week
-      - **Goal:** ${formData.goal} (Target Weight: ${formData.goalWeight} kg)
-      - **Fitness Level:** ${formData.fitnessLevel}
-      ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` : ""}
-      - **Preferred Workout Split:** ${formData.workoutSplit}`;
+      const promptText = `You are a professional fitness coach. Your task is to generate a **precise, structured, and comprehensive 90-day workout plan** tailored to the user's profile below. 
+
+### Instructions:
+1. **Markdown Format Only**: Provide the entire workout plan in clear, professional, and well-organized markdown format. Do not include any text outside the markdown plan (like tips or advice).
+2. **No Fluff**: Focus solely on the workout plan. Do not include motivational advice, extra tips, or explanations.
+3. **Detailed Breakdown**:
+    - Clearly specify the workout split (e.g., push-pull-legs, full body, upper/lower).
+    - List exercises with sets, reps, and rest times for each day.
+    - Adjust the difficulty based on the user's fitness level.
+    - Periodize the plan over 90 days (e.g., progressive overload, rest weeks).
+4. **Customization**: Ensure exercises are adapted based on available equipment and the user's goals.
+
+### User Profile:
+- **Age:** ${formData.age} years
+- **Gender:** ${formData.gender}
+- **Height:** ${formData.height} cm
+- **Weight:** ${formData.weight} kg
+- **Equipment Access:** ${formData.hasEquipment ? "Fully equipped gym" : "No gym equipment"}
+- **Available Workout Days:** ${formData.activeDays} days per week
+- **Goal:** ${formData.goal} (Target Weight: ${formData.goalWeight} kg)
+- **Fitness Level:** ${formData.fitnessLevel}
+${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` : ""}
+- **Preferred Workout Split:** ${formData.workoutSplit}
+
+### Example Structure:
+\`\`\`markdown
+# 90-Day Workout Plan
+
+## Phase 1: Weeks 1-4
+### Day 1: [Workout Name]
+- **Exercise 1**: [Sets x Reps, Rest]
+- **Exercise 2**: [Sets x Reps, Rest]
+...
+
+## Phase 2: Weeks 5-8
+...
+
+## Phase 3: Weeks 9-12
+...
+\`\`\`
+
+### Note:
+1. Ensure the markdown output is clean and error-free.
+2. Make the plan intuitive and beginner-friendly if applicable.
+3. All exercises must align with the user’s fitness level and equipment availability.
+4. Progression should be built into the plan.`;
 
       // Generate workout plan
       const response = await axios.post(
@@ -214,7 +248,6 @@ export default function ProfilePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          
           <h1 className="text-4xl font-bold mb-8 text-center text-gradient">
             Create Your Profile
           </h1>

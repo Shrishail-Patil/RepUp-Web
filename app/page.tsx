@@ -8,6 +8,7 @@ import { TemporaryMessage } from '@/components/temporary-message'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { supabase } from '@/utils/supabase/client'
+import { UserCountCard } from '@/components/user-count-card'
 
 export default function Home() {
   const router = useRouter()
@@ -40,6 +41,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <TemporaryMessage />
+      <UserCountCard />
       
       {/* Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -140,7 +142,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="relative z-10 container mx-auto px-4 py-24">
+      <section className="relative z-10 container mx-auto px-4 py-24" id="features">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
