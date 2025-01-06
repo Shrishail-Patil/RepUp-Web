@@ -41,11 +41,32 @@ export default function LoginPage() {
         const { email, user_metadata } = user;
         const name = user_metadata?.name || 'Unknown User';
   
-        await supabase.from('users').upsert({
-          uid: user.id,
-          Username: name,
-          Email: email,
-        });
+        // await supabase.from('users').upsert({
+        //   uid: user.id,
+        //   username: name,
+        //   email: email,
+        // });
+        
+        try {
+          const { data, error } = await supabase
+            .from('users')
+            .upsert({
+              uid: user.id,
+              username: name,
+              email: email
+            }, {
+              onConflict: 'uid'  // removed 'returning' as it's not in the type definition
+            });
+        
+          if (error) {
+            console.error('Upsert error:', error);
+            return;
+          }
+        
+          console.log('Upsert successful:', data);
+        } catch (err) {
+          console.error('Exception:', err);
+        }
   
         Cookies.set('uid', user.id, { expires: 7, secure: true });
         Cookies.set('uname', name, { expires: 7, secure: true });

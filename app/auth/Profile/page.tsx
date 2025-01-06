@@ -430,7 +430,7 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
                   </SelectContent>
                 </Select>
               </div>
-              {/* <Link href="/auth/Dashboard"> */}
+              <Link href="/auth/Dashboard">
                 <SquiggleButton
                   onClick={generatePrompt}
                   disabled={loading}
@@ -438,7 +438,7 @@ ${formData.injuries ? `- **Medical Conditions/Injuries:** ${formData.injuries}` 
                 >
                   {loading ? "Generating..." : "Generate Workout Plan"}
                 </SquiggleButton>
-              {/* </Link> */}
+              </Link>
 
               {error && <div className="text-red-600 mt-4">{error}</div>}
             </form>

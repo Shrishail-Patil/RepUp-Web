@@ -12,7 +12,7 @@ export const UserCountCard = () => {
     const fetchUserCount = async () => {
       try {
         const { count, error } = await supabase
-          .from('auth.users')
+          .from('users')
           .select('*', { count: 'exact', head: true })
 
         if (error) {
@@ -38,7 +38,7 @@ export const UserCountCard = () => {
         { 
           event: '*', 
           schema: 'public',
-          table: 'auth.users' 
+          table: 'users' 
         }, 
         () => {
           fetchUserCount()
