@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown'
 import { supabase } from '@/utils/supabase/supabaseClient'
 import Cookies from 'js-cookie'
 import Link from 'next/link'
-import { ArrowLeft, Download } from 'lucide-react'
+import { ArrowLeft, Download, RotateCcw } from 'lucide-react'
 import jsPDF from 'jspdf'
 import { useRouter } from 'next/navigation'
 
@@ -114,6 +114,9 @@ export default function WorkoutPlanPage() {
           transition={{ duration: 0.5 }}
         >
           {error}
+          <button onClick={()=>{router.refresh()}}>
+            <RotateCcw className="h-6 w-6 ml-2" />
+            Retry</button>
         </motion.div>
       </div>
     )
