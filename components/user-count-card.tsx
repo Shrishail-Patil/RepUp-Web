@@ -2,19 +2,53 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { supabase } from '@/utils/supabase/client'
 
-export function UserCountCard() {
+export const UserCountCard = () => {
   const [userCount, setUserCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Simulating an API call to get the user count
     const fetchUserCount = async () => {
-      // Replace this with an actual API call in production
-      const simulatedCount = Math.floor(Math.random() * 10000) + 1000
-      setUserCount(simulatedCount)
+      try {
+        const { count, error } = await supabase
+          .from('users')
+          .select('*', { count: 'exact', head: true })
+
+        if (error) {
+          console.error('Error fetching user count:', error)
+          return
+        }
+
+        setUserCount(count || 0)
+      } catch (error) {
+        console.error('Error:', error)
+      } finally {
+        setIsLoading(false)
+      }
     }
 
     fetchUserCount()
+
+    // Set up real-time subscription for user count updates
+    const channel = supabase.channel('schema-db-changes')
+    
+    channel
+      .on('postgres_changes', 
+        { 
+          event: '*', 
+          schema: 'public',
+          table: 'users' 
+        }, 
+        () => {
+          fetchUserCount()
+        }
+      )
+      .subscribe()
+
+    return () => {
+      channel.unsubscribe()
+    }
   }, [])
 
   return (
@@ -32,7 +66,7 @@ export function UserCountCard() {
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 2 }}
         >
-          {userCount.toLocaleString()}
+          {isLoading ? "..." : userCount.toLocaleString()}
         </motion.p>
       </div>
     </motion.div>
