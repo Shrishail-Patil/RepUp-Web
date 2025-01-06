@@ -46,6 +46,7 @@ export default function WorkoutPlanPage() {
         }
       } catch (err) {
         console.error('Error fetching workout plan:', err)
+        router.refresh()
         setError('Failed to fetch workout plan')
       } finally {
         setLoading(false)
