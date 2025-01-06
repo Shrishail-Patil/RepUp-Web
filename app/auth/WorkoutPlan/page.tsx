@@ -17,6 +17,9 @@ export default function WorkoutPlanPage() {
   const router = useRouter()
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      // setIsVisible(false)
+    }, 5000)
     const fetchWorkoutPlan = async () => {
       try {
         const userId = Cookies.get('uid')
