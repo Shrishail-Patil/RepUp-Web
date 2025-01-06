@@ -41,6 +41,36 @@ export default function ProfilePage() {
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
+    const setupUser = async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const session = sessionData?.session;
+  
+      if (session?.user) {
+        const { user } = session;
+        const { email, user_metadata } = user;
+        const name = user_metadata?.name || 'Unknown User';
+  
+        try {
+          const { error } = await supabase
+            .from('users')
+            .upsert({
+              uid: user.id,
+              username: name,
+              email: email
+            }, {
+              onConflict: 'uid'
+            });
+  
+          if (error) {
+            console.error('Upsert error:', error);
+          }
+        } catch (err) {
+          console.error('Exception:', err);
+        }
+      }
+    };
+  
+    setupUser();
     fetchSession();
   }, []);
 
