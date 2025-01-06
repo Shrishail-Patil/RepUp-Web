@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { ArrowLeft, Download, RotateCcw } from 'lucide-react'
 import jsPDF from 'jspdf'
 import { useRouter } from 'next/navigation'
+import { SquiggleButton } from '@/components/squiggle-button'
 
 export default function WorkoutPlanPage() {
   const [workoutPlan, setWorkoutPlan] = useState<string | null>(null)
@@ -114,10 +115,8 @@ export default function WorkoutPlanPage() {
           transition={{ duration: 0.5 }}
         >
           {error}
-          <button onClick={()=>{router.refresh()}}>
-            <RotateCcw className="h-6 w-6 ml-2" />
-            Retry</button>
         </motion.div>
+        <SquiggleButton onClick={()=>{router.refresh()}} className="mt-4">Retry</SquiggleButton>
       </div>
     )
   }
