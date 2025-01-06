@@ -38,7 +38,7 @@ export const UserCountCard = () => {
         { 
           event: '*', 
           schema: 'public',
-          table: 'users' 
+          table: 'auth.users' 
         }, 
         () => {
           fetchUserCount()
