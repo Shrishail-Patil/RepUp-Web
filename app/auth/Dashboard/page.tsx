@@ -74,13 +74,13 @@ export default function HomePage() {
           .order('date', { ascending: false })
           .limit(1)
           .single();
-          setLastDate(workoutData?.date)! || null
+          setLastDate(workoutData?.date)
 
           // Fetch the total number of workouts
           const { count, error: countError } = await supabase
             .from('workout_sessions')
             .select('workout_id', { count: 'exact' })
-            .eq('user_id', user.id) || 0
+            .eq('user_id', user.id)
 
           if (countError) throw new Error(countError.message)
 
