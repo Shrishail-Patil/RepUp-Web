@@ -17,48 +17,50 @@ export default function WorkoutPlanPage() {
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      // setIsVisible(false)
-    }, 5000)
-    const fetchWorkoutPlan = async () => {
+  const fetchWorkoutPlanWithRetry = async (retries = 3) => {
+    const userId = Cookies.get('uid');
+    if (!userId) {
+      setError('User ID not found. Please log in.');
+      setLoading(false);
+      return;
+    }
+  
+    for (let i = 0; i < retries; i++) {
       try {
-        const userId = Cookies.get('uid')
-        
-        if (!userId) {
-          setError('User ID not found. Please log in.')
-          setLoading(false)
-          return
-        }
-
         const { data, error } = await supabase
           .from('users_workouts')
           .select('workout_plan')
           .eq('user_id', userId)
           .order('created_at', { ascending: false })
           .limit(1)
-          .single()
-
+          .single();
+  
         if (error) {
-          throw error
+          throw error;
         }
-
+  
         if (data) {
-          setWorkoutPlan(data.workout_plan)
+          setWorkoutPlan(data.workout_plan);
+          setLoading(false);
+          return;
         } else {
-          setError('No workout plan found.')
+          setError('No workout plan found.');
+          setLoading(false);
+          return;
         }
       } catch (err) {
-        console.error('Error fetching workout plan:', err)
-        router.refresh()
-        setError('Failed to fetch workout plan')
-      } finally {
-        setLoading(false)
+        if (i === retries - 1) {
+          console.error('Error fetching workout plan:', err);
+          setError('Failed to fetch workout plan after retries');
+          setLoading(false);
+        }
       }
     }
-
-    fetchWorkoutPlan()
-  }, [])
+  };
+  
+  useEffect(() => {
+    fetchWorkoutPlanWithRetry();
+  }, []);
 
   const downloadPDF = () => {
     if (!workoutPlan) return
@@ -116,7 +118,7 @@ export default function WorkoutPlanPage() {
         >
           {error}
         </motion.div>
-        <SquiggleButton onClick={()=>{router.refresh()}} className="mt-4">Retry</SquiggleButton>
+        {/* <SquiggleButton onClick={()=>{router.refresh()}} className="mt-4">Retry</SquiggleButton> */}
       </div>
     )
   }

@@ -95,7 +95,7 @@ export default function ProfilePage() {
     try {
       const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
       if (sessionError) throw sessionError
-
+ 
       const userId = sessionData?.session?.user?.id
       if (!userId) throw new Error('User not authenticated')
 
@@ -110,6 +110,8 @@ export default function ProfilePage() {
         title: 'Success',
         description: 'Your profile has been updated.',
       })
+      
+      
       setIsEditing(false)
     } catch (error) {
       console.error('Error updating user details:', error)
