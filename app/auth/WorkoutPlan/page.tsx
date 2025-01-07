@@ -118,7 +118,13 @@ export default function WorkoutPlanPage() {
         >
           {error}
         </motion.div>
-        {/* <SquiggleButton onClick={()=>{router.refresh()}} className="mt-4">Retry</SquiggleButton> */}
+        <button
+        onClick={() => location.reload()}
+        className="mt-4 inline-flex items-center px-6 py-2 text-sm font-medium text-white bg-black rounded-full hover:bg-gray-900 transition-colors"
+      >
+        <RotateCcw className="h-4 w-4 mr-2" />
+        Refresh Page
+      </button>
       </div>
     )
   }
