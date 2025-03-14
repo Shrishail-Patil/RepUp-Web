@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { supabase } from '@/utils/supabase/client'
 import { UserCountCard } from '@/components/user-count-card'
+import { Analytics } from "@vercel/analytics/react"
 
 export default function Home() {
   const router = useRouter()
@@ -42,6 +43,7 @@ export default function Home() {
     <div className="min-h-screen">
       <TemporaryMessage />
       <UserCountCard />
+      <Analytics/>
       
       {/* Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
